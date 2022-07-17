@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static specs.SingleUserSpecs.requestSpec;
+import static specs.SingleUserSpecs.responseSpec;
 
 public class LombokReqresinTests {
 
@@ -20,7 +22,7 @@ public class LombokReqresinTests {
     }
 
     @Test
-    void singleUserLombokTest() {
+    void singleUserLombokSpecTest() {
         Integer userId = 1;
         UserData sampleUserData = new UserData();
         sampleUserData.setId(userId);
@@ -29,15 +31,20 @@ public class LombokReqresinTests {
         sampleUser.setUserData(sampleUserData);
 
         User ResponseUser = given()
-                .log().uri()
-                .log().body()
+                //.baseUri("https://reqres.in")
+                //.basePath("/api/users")
+                //.log().all();
+                // replaced with ↓
+                .spec(requestSpec)
                 .when()
-                .get("/api/users/" + userId)
+                .get("/" + userId)
                 .then()
-                .log().status()
-                .log().body()
-                .statusCode(200)
+                //.log().status()
+                //.log().body()
+                //.statusCode(200)
                 //.body(notNullValue())
+                // replaced with ↓
+                .spec(responseSpec)
                 .extract().as(User.class)
                 ;
         System.out.println("userId= " + ResponseUser.getUserData().getId());
