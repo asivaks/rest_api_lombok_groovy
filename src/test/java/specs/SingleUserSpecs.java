@@ -1,6 +1,8 @@
 package specs;
 
+import io.restassured.RestAssured;
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.config.LogConfig;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
@@ -11,6 +13,9 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class SingleUserSpecs {
+
+
+
     public static RequestSpecification requestSpec = with()
             .baseUri("https://reqres.in")
             .basePath("/api/users")

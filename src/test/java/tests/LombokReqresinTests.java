@@ -1,6 +1,7 @@
 package tests;
 
 import io.restassured.RestAssured;
+import io.restassured.config.LogConfig;
 import models.User;
 import models.UserData;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,13 +17,22 @@ import static specs.SingleUserSpecs.responseSpec;
 
 public class LombokReqresinTests {
 
+
+
     @BeforeAll
     static void setUp() {
         RestAssured.baseURI = "https://reqres.in/";
     }
 
+
     @Test
     void singleUserLombokSpecTest() {
+        
+        //adding this didn't help
+        //LogConfig logconfig = new LogConfig().enablePrettyPrinting(true);
+        //RestAssured.config().logConfig(logconfig);
+
+
         Integer userId = 1;
         UserData sampleUserData = new UserData();
         sampleUserData.setId(userId);
@@ -45,6 +55,7 @@ public class LombokReqresinTests {
                 //.body(notNullValue())
                 // replaced with ↓
                 .spec(responseSpec)
+                // TODO: 17.07.2022 why I have no status in my logs? 
                 .extract().as(User.class)
                 ;
         System.out.println("userId= " + ResponseUser.getUserData().getId());
@@ -55,6 +66,7 @@ public class LombokReqresinTests {
 
     @Test
     void listUsersGroovyTest() {
+
         ArrayList nameList = given()
                 .log().uri()
                 .log().body()
